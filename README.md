@@ -4,8 +4,7 @@ The public website of Tierra LLC, served by GitHub Pages from the `main` branch 
 
 ## Status
 
-Holding page only. The site's content is published after the custom domain `tierra-llc.com` serves HTTPS with
-"Enforce HTTPS" switched on.
+v1: Home, About and Contact, served at `https://tierra-llc.com` with "Enforce HTTPS" on.
 
 ## Rules
 
