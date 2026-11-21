@@ -89,6 +89,8 @@ def main(publish):
         if not SKIP.search(text) or 'id="main"' not in text:
             problems.append(f"{rel}: skip link missing")
         for img in IMG.findall(text):
+            if re.search(r'src\s*=\s*"[^"]*logo', img, re.I):
+                problems.append(f"{rel}: logo loaded via <img> (draw it inline with token colours)")
             if not re.search(r'alt\s*=', img, re.I):
                 problems.append(f"{rel}: img without alt")
         for attr, val in ATTR.findall(text):

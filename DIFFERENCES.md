@@ -17,7 +17,7 @@ Checked against tokens.json, README.md (sections 4 to 8, 12), and the Button, Ca
 | site.css:48-50 | h1 clamp 30-48px, h2 24px, h3 20px, no weights set | display-xl 48/52 bold, heading-2 24/30 600, heading-3 18/26 600 | Differs (h3 size, weights, line heights) |
 | site.css:28 | body 17px, line-height 1.7 (28.9px) | body-lg 17/28 | Differs slightly |
 | site.css:65 | Button label inherits body (17px) | label 15px, weight 600 (Button README) | Differs |
-| assets/wordmark.svg:11 | Text in system font | Wordmark: Tierra bold, LLC regular (README 4) | SVG used as an image cannot load page fonts; see HANDOFF |
+| assets/wordmark.svg:11 | Text in system font | Wordmark: Tierra bold, LLC regular (README 4) | Resolved (SITE-V2): wordmark drawn inline, text in Space Grotesk 700/400 from tokens |
 
 ## Spacing, size
 | Where | Site | Design system | Status |
