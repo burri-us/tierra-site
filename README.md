@@ -4,7 +4,7 @@ The public website of Tierra LLC, served by GitHub Pages from the `main` branch 
 
 ## Status
 
-Phase 1: Home (with Products), About, Contact, Privacy and Terms, served at `https://tierra-llc.com` with "Enforce HTTPS" on.
+Phase 1: Home (with Products), About and Contact, served at `https://tierra-llc.com` with "Enforce HTTPS" on. Privacy and Terms are added after counsel review (DEC-448, option A).
 
 ## Rules
 

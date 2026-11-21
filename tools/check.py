@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DRAFT_OK = {"privacy/index.html", "terms/index.html"}
 ALLOWED_HOSTS = {"assuredforge.com", "www.assuredforge.com"}
 ATTR = re.compile(r'\b(src|href)\s*=\s*"([^"]*)"', re.I)
-FOOTER = re.compile(r"<footer>.*©\s*\d{4} Tierra LLC.*/privacy/.*/terms/.*</footer>", re.S)
+FOOTER = re.compile(r"<footer>.*©\s*\d{4} Tierra LLC.*</footer>", re.S)   # privacy and terms are added after counsel (DEC-448, option A)
 
 
 def main(publish):
