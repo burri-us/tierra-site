@@ -6,7 +6,15 @@ Branch w12-phase2. Not pushed, not deployed. `python tools/check.py` passes (4 p
 - c51e754 Tokens: design system 1795242441-3bd7 (adds bar, bar-ink); ship Space Grotesk 400
 - 4acbb39 Draw the v2 wordmark inline in all pages with token colours and brand face; remove logo file; check fails on logo <img>
 - 1e83ab9 Handoff: SITE-V2
-- (this file) Handoff: re-pin to design system 1795242812-8f35
+- 5e1d44d Handoff: re-pin to design system 1795242812-8f35
+- e132d44 About: the decided mission (CL-11), also in the page and share descriptions
+- (this file) Handoff for the owner's push approval (PAGE-WEIGHT.md regenerated locally)
+
+## Ready for the owner's push approval (assessor items 1 and 2)
+- About > Mission now reads exactly: "Help organizations and individuals build and run what matters with AI they can trust and evidence they can show." (CL-11). The same sentence replaces the old mission in the About page's meta description and og:description. The "How we work" cards and the founder note are unchanged.
+- PAGE-WEIGHT.md (local only: listed in .gitignore, never committed or published) is regenerated from a measurement: home 103441, About 101656, Contact 87728, 404 63084 bytes uncompressed, including the self-hosted fonts each page loads. Fonts dominate the totals, and the browser caches them after the first page.
+- `python tools/check.py`: 4 pages, 0 problems. About re-shot (light/dark, 1440/390); scrollWidth 1440 and 390, no sideways scroll.
+- Not pushed. Preview port 4174 stopped and free.
 
 ## What changed
 - design/tokens.json copied byte for byte (SHA-256 2ed1bb14...3857, recorded in design/tokens.sha256); assets/tokens.css regenerated (adds --bar, --bar-ink, Space Grotesk 400 @font-face). space-grotesk-latin-400-normal.woff2 added from @fontsource 5.1.1 (same as the other faces; THIRD-PARTY-NOTICES.md updated).
@@ -23,7 +31,6 @@ assets/logos/tierra-wordmark.svg and the assets/logos directory. No remaining re
 - assets/favicon.svg, favicon-32.png, og.png, og.svg unchanged (exception E-2: not in the Logos folder, no derivation rule).
 - Dashed "More in development" card (exception E-3).
 - No DRAFT banners on these four pages (privacy/terms not present).
-- PAGE-WEIGHT.md not regenerated (still describes the linked wordmark); numbers are stale by about 1 KB per page.
 
 ## Contrast (WCAG, light / dark; text needs 4.5, graphics 3)
 | Pair | Light | Dark |
@@ -52,4 +59,4 @@ All pass. Gold is never text. rule on surface (1.40 / 1.51) is a decorative divi
 `npx serve C:\dev\AssuredForge\tierra-site-p2 -l 4174` (stopped; port verified free).
 
 ## Screenshots
-C:\dev\AssuredForge\ds-previews\site-v2\tierra\{home|about|contact}-{light|dark}-{1440|390}.png (12 files; script shoot.cjs one level up).
+C:\dev\AssuredForge\ds-previews\site-v2\tierra\{home|about|contact}-{light|dark}-{1440|390}.png (12 files; script shoot.cjs one level up). About re-shot after the mission change with about-weight.cjs, which also measured PAGE-WEIGHT.md.
