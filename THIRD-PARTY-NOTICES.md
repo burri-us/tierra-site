@@ -5,7 +5,7 @@ Fonts are self-hosted from the npm packages below (woff2, latin subset, copied u
 | Font | Package (pinned) | Files |
 | --- | --- | --- |
 | Inter | @fontsource/inter 5.1.1 | inter-latin-400-normal.woff2, inter-latin-600-normal.woff2 |
-| Space Grotesk | @fontsource/space-grotesk 5.1.1 | space-grotesk-latin-600-normal.woff2, space-grotesk-latin-700-normal.woff2 |
+| Space Grotesk | @fontsource/space-grotesk 5.1.1 | space-grotesk-latin-400-normal.woff2, space-grotesk-latin-600-normal.woff2, space-grotesk-latin-700-normal.woff2 |
 
 ## Inter
 

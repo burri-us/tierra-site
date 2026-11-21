@@ -17,6 +17,7 @@ OUT = ROOT / "assets" / "tokens.css"
 FACES = [
     ("Inter", 400, "inter-latin-400-normal.woff2"),
     ("Inter", 600, "inter-latin-600-normal.woff2"),
+    ("Space Grotesk", 400, "space-grotesk-latin-400-normal.woff2"),
     ("Space Grotesk", 600, "space-grotesk-latin-600-normal.woff2"),
     ("Space Grotesk", 700, "space-grotesk-latin-700-normal.woff2"),
 ]
