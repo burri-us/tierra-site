@@ -16,6 +16,11 @@ Branch w12-phase2, base 08a507c. Not pushed, not deployed. `python tools/check.p
 4. Inline AssuredForge mark in index.html is the approved geometry drawn with token colours (the file has fixed ink, unreadable on the dark surface); rule: use the file as is; review: when a reversed mark exists (site-w11 has one, not in Logos).
 5. Dashed border on the "More in development" card (Card README: solid rule border).
 
+## Light and dark mode (owner addition)
+- Both themes are generated from tokens.json (value.light on :root, value.dark under prefers-color-scheme: dark); automatic only, no toggle, script or storage. No colour outside tokens (check enforces).
+- Logos: the approved wordmark switches itself (verified in dark screenshots). Per image: hero graphic is inline SVG on tokens, so it follows the theme; favicon.svg and favicon-32.png are opaque navy tiles with a white T, readable on light and dark tabs, unchanged; og.png is an opaque navy card with white text, unchanged (same in both themes).
+- Focus ring (accent, 3px) vs surface: 6.69 light / 8.04 dark (needs 3:1). Status badge: ink text and ink border on surface, 15.06 / 14.84. Button label, link and hover ratios as listed above, both themes.
+
 ## Open questions
 - POLICY: the approved logo SVG contains a C2PA metadata block whose decoded text says the file was provided by Claude. Copied byte for byte as instructed, but it conflicts with the no-AI-marker repository policy. Decide: strip it (changes the hash) or accept.
 - 404 page: not published on Pages tests locally only via /404.html.
