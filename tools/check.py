@@ -4,7 +4,8 @@
 Usage: python tools/check.py [--publish]
 
 Refuses (exit 1) when any page has a script, an external resource or link other
-than assuredforge.com and mailto, a missing footer, a DRAFT marker outside
+than assuredforge.com and mailto, a missing footer or legal line, a missing meta
+description, an <img> without alt, a missing skip link, a DRAFT marker outside
 /privacy/ and /terms/, or an [ADDRESS: placeholder. With --publish it also
 refuses while any placeholder or DRAFT marker remains anywhere.
 """
@@ -18,7 +19,10 @@ DRAFT_OK = {"privacy/index.html", "terms/index.html"}
 ALLOWED_HOSTS = {"assuredforge.com", "www.assuredforge.com"}
 ATTR = re.compile(r'\b(src|href)\s*=\s*"([^"]*)"', re.I)
 FOOTER = re.compile(r"<footer>.*©\s*\d{4} Tierra LLC.*</footer>", re.S)   # privacy and terms are added after counsel (DEC-448, option A)
-
+LEGAL = "Tierra LLC, a Michigan limited liability company. 5987 Wabash Ln, Stevensville, MI 49127"
+DESC = re.compile(r'<meta\s+name="description"\s+content="[^"]+"', re.I)
+IMG = re.compile(r"<img[^>]*>", re.I)
+SKIP = re.compile(r'<a\s+class="skip"\s+href="#main"', re.I)
 
 def main(publish):
     problems = []
@@ -38,6 +42,15 @@ def main(publish):
             problems.append(f"{rel}: script tag")
         if not FOOTER.search(text):
             problems.append(f"{rel}: footer missing or incomplete")
+        if LEGAL not in text:
+            problems.append(f"{rel}: legal line missing")
+        if not DESC.search(text):
+            problems.append(f"{rel}: meta description missing")
+        if not SKIP.search(text) or 'id="main"' not in text:
+            problems.append(f"{rel}: skip link missing")
+        for img in IMG.findall(text):
+            if not re.search(r'alt\s*=', img, re.I):
+                problems.append(f"{rel}: img without alt")
         for attr, val in ATTR.findall(text):
             u = urlparse(val)
             if u.scheme == "mailto" or (not u.scheme and not u.netloc):
