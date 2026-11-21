@@ -10,6 +10,7 @@ description, an <img> without alt, a missing skip link, a DRAFT marker outside
 refuses while any placeholder or DRAFT marker remains anywhere.
 """
 import re
+import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -24,8 +25,47 @@ DESC = re.compile(r'<meta\s+name="description"\s+content="[^"]+"', re.I)
 IMG = re.compile(r"<img[^>]*>", re.I)
 SKIP = re.compile(r'<a\s+class="skip"\s+href="#main"', re.I)
 
+HEX = re.compile(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b(?=[;\s,)}])")
+FONTS = re.compile(r"\b(Inter|Space Grotesk|JetBrains Mono|system-ui|Segoe UI|Roboto|Helvetica|Arial|Consolas|Cascadia|sans-serif|monospace)\b", re.I)
+COLOUR_FN = re.compile(r"\b(rgba?|hsla?)\(", re.I)
+
+def check_design(problems):
+    """Design-system rules: tokens generated, no raw colours or font names outside assets/tokens.css."""
+    r = subprocess.run([sys.executable, str(ROOT / "tools" / "gen_tokens.py"), "--check"], capture_output=True, text=True)
+    for line in r.stdout.splitlines():
+        problems.append(line.replace("FAIL ", ""))
+    for f in [ROOT / "assets" / "site.css"] + sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts):
+        rel = f.relative_to(ROOT).as_posix()
+        text = f.read_text(encoding="utf-8")
+        for m in HEX.finditer(text):
+            problems.append(f"{rel}: raw hex colour {m.group(0)} (use a token)")
+        for m in COLOUR_FN.finditer(text):
+            problems.append(f"{rel}: raw colour function {m.group(0)} (use a token)")
+        if f.suffix == ".css":
+            body = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+        else:
+            body = "\n".join(re.findall(r"<style.*?</style>|style=\"[^\"]*\"", text, re.S))
+        for m in FONTS.finditer(body):
+            problems.append(f"{rel}: raw font name {m.group(0)} (use a font token)")
+    for page in sorted(ROOT.rglob("*.html")):
+        if ".git" in page.parts:
+            continue
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text(encoding="utf-8")
+        csp = re.search(r'Content-Security-Policy" content="([^"]*)"', text)
+        if not csp or "font-src 'self'" not in csp.group(1) or re.search(r"https?:|unsafe|\*", csp.group(1)):
+            problems.append(f"{rel}: CSP must include font-src 'self' and no external source")
+        if "/assets/tokens.css" not in text:
+            problems.append(f"{rel}: tokens.css not linked")
+    for w in (ROOT / "assets" / "fonts").glob("*"):
+        if w.suffix != ".woff2":
+            problems.append(f"assets/fonts/{w.name}: only woff2 expected")
+    if "SIL OPEN FONT LICENSE" not in (ROOT / "THIRD-PARTY-NOTICES.md").read_text(encoding="utf-8").upper():
+        problems.append("THIRD-PARTY-NOTICES.md: licence text missing")
+
 def main(publish):
     problems = []
+    check_design(problems)
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")
