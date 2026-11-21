@@ -29,4 +29,4 @@ Branch w12-phase2, base 08a507c. Not pushed, not deployed. `python tools/check.p
 `npx serve C:\dev\AssuredForge\tierra-site-p2 -l 4174` (server stopped now).
 
 ## Screenshots
-C:\dev\AssuredForge\ds-previews\site-t\ : before-/after- x home, about, contact, 404 x wide (1440), narrow (390, via iframe harness since headless Chrome minimum window is 500; grey strip at the right is the harness).
+C:devAssuredForgeds-previewssite-t : before-PAGE-wide|narrow.png (light, 08a507c) and after-light|dark-PAGE-wide|narrow.png for home, about, contact, 404; 1440 and 390; puppeteer-core driving headless Chrome with prefers-color-scheme emulated (dark verified visually on home).
