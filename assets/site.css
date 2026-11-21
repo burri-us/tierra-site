@@ -53,6 +53,10 @@ p { margin: 0 0 1rem; max-width: 42rem; }
 
 .hero { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; padding-top: 1rem; }
 .hero-art { width: 100%; max-width: 20rem; height: auto; justify-self: center; }
+@media (max-width: 30rem) {                          /* narrow screens: half-size graphic so Products starts within two screens */
+  .hero { gap: 1rem; }
+  .hero-art { max-width: 10rem; }
+}
 .g-rule { stroke: var(--rule); }
 .g-ink { stroke: var(--ink); }
 .g-gold { stroke: var(--gold); }
