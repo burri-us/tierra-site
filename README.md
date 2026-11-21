@@ -1,6 +1,6 @@
 # tierra-site
 
-The public website of Tierra LLC, served by GitHub Pages from the `main` branch (root folder), with no build step.
+The public website of Tierra LLC, served by GitHub Pages from the `main` branch (root folder), with no build step. `_config.yml` keeps every internal file (this README, handoffs, notes, `tools/`, `design/`) off the website; the pages and assets are copied as they are. `python tools/check.py` fails if any file outside the allow-list would be served, or if a `.nojekyll` file returns.
 
 ## Status
 

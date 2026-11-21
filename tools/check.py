@@ -63,9 +63,59 @@ def check_design(problems):
     if "SIL OPEN FONT LICENSE" not in (ROOT / "THIRD-PARTY-NOTICES.md").read_text(encoding="utf-8").upper():
         problems.append("THIRD-PARTY-NOTICES.md: licence text missing")
 
+# What GitHub Pages may serve (allow-list). Pages builds this repo with Jekyll: files whose path has a part starting
+# with "." or "_" and the _config.yml "exclude" patterns are not served; everything else is. With a .nojekyll file,
+# every file is served, so .nojekyll must stay absent.
+SERVED_ALLOW = [re.compile(p) for p in (
+    r"index\.html", r"404\.html", r"[a-z0-9-]+/index\.html",
+    r"assets/[a-z0-9.-]+\.(css|png|svg)", r"assets/fonts/[a-z0-9-]+\.woff2",
+    r"CNAME", r"robots\.txt", r"sitemap\.xml",
+)]
+
+def jekyll_excludes():
+    cfg = ROOT / "_config.yml"
+    if not cfg.exists():
+        return None
+    return [m.strip().strip('"') for m in re.findall(r"^\s*-\s*(.+)$", cfg.read_text(encoding="utf-8").split("exclude:", 1)[-1], re.M)]
+
+def served(files, excludes):
+    """The files Pages would serve, from the repo's file list."""
+    if ".nojekyll" in files or excludes is None:
+        return list(files)
+    import fnmatch
+    out = []
+    for f in files:
+        parts = f.split("/")
+        if any(p[:1] in "._" for p in parts):
+            continue
+        if any(fnmatch.fnmatch(f, x) or fnmatch.fnmatch(parts[0], x) for x in excludes):
+            continue
+        out.append(f)
+    return out
+
+def served_problems(files, excludes):
+    return [f"{f}: would be served by GitHub Pages but is not a site file (allow-list in tools/check.py)"
+            for f in served(files, excludes) if not any(p.fullmatch(f) for p in SERVED_ALLOW)]
+
+def check_served(problems):
+    """Internal files (handoffs, notes, tools, design records) must never be served."""
+    git = lambda *a: subprocess.run(["git", "-C", str(ROOT), "ls-files", *a], capture_output=True, text=True).stdout.split("\n")
+    files = sorted({f for f in git() + git("--others", "--exclude-standard") if f})
+    excludes = jekyll_excludes()
+    if ".nojekyll" in files:
+        problems.append(".nojekyll: makes GitHub Pages serve every file; remove it")
+    if excludes is None:
+        problems.append("_config.yml: missing (it keeps internal files off the website)")
+    problems.extend(served_problems(files, excludes))
+    # Negative test: a planted internal file, or a .nojekyll, must be caught.
+    for planted in (["HANDOFF.txt"], ["notes/COUNSEL-LIST.html"], [".nojekyll"]):
+        if not served_problems(files + planted, excludes):
+            problems.append(f"served-file check: planted {planted[0]} was not caught")
+
 def main(publish):
     problems = []
     check_design(problems)
+    check_served(problems)
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")

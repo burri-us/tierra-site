@@ -1,0 +1,14 @@
+# GitHub Pages build for tierra-llc.com. The site has no build step: the pages and assets have no front matter, so
+# Jekyll copies them byte for byte at their own paths. This file only keeps internal files off the website.
+# Served: the pages, assets/, CNAME, robots.txt and sitemap.xml (allow-list in tools/check.py, which fails on anything else).
+exclude:
+  - "*.md"
+  - README.md
+  - HANDOFF.md
+  - DIFFERENCES.md
+  - THIRD-PARTY-NOTICES.md
+  - PAGE-WEIGHT.md
+  - COUNSEL-LIST.md
+  - tools
+  - design
+  - "*.py"
