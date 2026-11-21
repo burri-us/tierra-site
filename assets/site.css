@@ -61,6 +61,7 @@ p { margin: 0 0 1rem; max-width: 42rem; }
 
 footer { border-top: 1px solid var(--rule); background: var(--surface-alt); }
 footer p { margin: 0; padding: 0.75rem 0 0; color: var(--muted); font-size: 0.9375rem; max-width: none; }
+.notice { margin: 0; padding: var(--space-4); white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-mono); font-size: var(--type-body-sm-size); line-height: var(--type-body-sm-line); background: var(--surface-alt); border: 1px solid var(--rule); border-radius: var(--radius-md); }
 footer p:last-child { padding-bottom: 1rem; }
 
 @media (min-width: 48rem) {

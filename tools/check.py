@@ -34,6 +34,9 @@ def check_design(problems):
     r = subprocess.run([sys.executable, str(ROOT / "tools" / "gen_tokens.py"), "--check"], capture_output=True, text=True)
     for line in r.stdout.splitlines():
         problems.append(line.replace("FAIL ", ""))
+    r = subprocess.run([sys.executable, str(ROOT / "tools" / "gen_notices.py"), "--check"], capture_output=True, text=True)
+    for line in r.stdout.splitlines():
+        problems.append(line.replace("FAIL ", ""))
     for f in [ROOT / "assets" / "site.css"] + sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts):
         rel = f.relative_to(ROOT).as_posix()
         text = f.read_text(encoding="utf-8")
@@ -119,6 +122,8 @@ def main(publish):
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")
+    if not (ROOT / "third-party-notices" / "index.html").exists():
+        problems.append("third-party-notices/index.html: missing (fonts are shipped under the OFL; run python tools/gen_notices.py)")
     for page in pages:
         rel = page.relative_to(ROOT).as_posix()
         text = page.read_text(encoding="utf-8")
@@ -132,6 +137,8 @@ def main(publish):
             problems.append(f"{rel}: script tag")
         if not FOOTER.search(text):
             problems.append(f"{rel}: footer missing or incomplete")
+        if '<a href="/third-party-notices/">Third-party notices</a>' not in text:
+            problems.append(f"{rel}: footer link to the third-party notices missing")
         if LEGAL not in text:
             problems.append(f"{rel}: legal line missing")
         if not DESC.search(text):
