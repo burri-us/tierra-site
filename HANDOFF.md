@@ -1,10 +1,12 @@
-# HANDOFF: SITE-V2 (tierra-llc.com, design system 1795242441-3bd7)
+# HANDOFF: SITE-V2 (tierra-llc.com, design system 1795242812-8f35)
+Source (read-only records copy): C:/dev/AssuredForge/assuredforge-architecture/design/tierra-design-system/ at architecture main 131e26c (SOURCE.md has every SHA-256). tokens.json 2ed1bb14...3857 is unchanged from 1795242441-3bd7, so the pin stands. The Logos SVG drawings in the records copy (now fixed colour attributes) match the inline drawings; the inline drawings take ink and gold from the token variables, so they switch with the theme.
 Branch w12-phase2. Not pushed, not deployed. `python tools/check.py` passes (4 pages, 0 problems).
 
 ## Commits (on top of 09be1f4)
 - c51e754 Tokens: design system 1795242441-3bd7 (adds bar, bar-ink); ship Space Grotesk 400
 - 4acbb39 Draw the v2 wordmark inline in all pages with token colours and brand face; remove logo file; check fails on logo <img>
-- (this file) Handoff: SITE-V2
+- 1e83ab9 Handoff: SITE-V2
+- (this file) Handoff: re-pin to design system 1795242812-8f35
 
 ## What changed
 - design/tokens.json copied byte for byte (SHA-256 2ed1bb14...3857, recorded in design/tokens.sha256); assets/tokens.css regenerated (adds --bar, --bar-ink, Space Grotesk 400 @font-face). space-grotesk-latin-400-normal.woff2 added from @fontsource 5.1.1 (same as the other faces; THIRD-PARTY-NOTICES.md updated).
