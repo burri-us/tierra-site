@@ -2,18 +2,20 @@
   <rect width="1200" height="630" fill="#0f2744"/>
   <circle cx="1000" cy="315" r="230" fill="none" stroke="#2a3a50" stroke-width="3"/>
   <circle cx="1000" cy="315" r="150" fill="none" stroke="#2a3a50" stroke-width="3"/>
-  <g fill="none" stroke-linecap="round" stroke-width="16">
-    <path stroke="#ffffff" d="M940 270h120M1000 270v90"/>
-    <path stroke="#b77a2f" d="M960 380h80"/>
+  <g transform="translate(1000 315) scale(6) translate(-15 -19)" fill="none" stroke-linecap="round" stroke-width="4">
+    <path stroke="#e8edf2" d="M5 7h20M15 7v20"/>
+    <path stroke="#d29a52" d="M8 31h14"/>
   </g>
-  <g fill="none" stroke-linecap="round" stroke-width="12">
-    <path stroke="#ffffff" d="M90 150h60M120 150v70"/>
-    <path stroke="#b77a2f" d="M100 245h40"/>
+  <g transform="translate(75 129) scale(3)" fill="none" stroke-linecap="round" stroke-width="4">
+    <path stroke="#e8edf2" d="M5 7h20M15 7v20"/>
+    <path stroke="#d29a52" d="M8 31h14"/>
   </g>
-  <g font-family="'Segoe UI', Arial, sans-serif" fill="#ffffff">
-    <text x="180" y="215" font-size="64" font-weight="700">Tierra LLC</text>
-    <text x="90" y="380" font-size="52" font-weight="600">Practical tools for work</text>
-    <text x="90" y="448" font-size="52" font-weight="600">you can stand behind.</text>
-    <text x="90" y="540" font-size="28" fill="#b4becd">tierra-llc.com</text>
+  <g fill="#e8edf2">
+    <text x="180" y="215" font-family="'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif" font-size="64" font-weight="700">Tierra LLC</text>
+    <g font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+      <text x="90" y="380" font-size="52" font-weight="600">Practical tools for work</text>
+      <text x="90" y="448" font-size="52" font-weight="600">you can stand behind.</text>
+      <text x="90" y="540" font-size="28" font-weight="400" fill="#b4becd">tierra-llc.com</text>
+    </g>
   </g>
 </svg>
