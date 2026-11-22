@@ -14,7 +14,7 @@ SRC = ROOT / "THIRD-PARTY-NOTICES.md"
 OUT = ROOT / "third-party-notices" / "index.html"
 TEMPLATE = ROOT / "contact" / "index.html"   # header, footer and head come from an existing page
 
-DESC = "Licences of the open-source typefaces this website ships from its own server."
+DESC = "Licenses of the open-source typefaces this website ships from its own server."
 
 
 def build():
@@ -24,7 +24,7 @@ def build():
     if not rows or not blocks:
         sys.exit("THIRD-PARTY-NOTICES.md: no font table or licence blocks found")
     body = ['    <h1>Third-party notices</h1>',
-            f'    <p>This website ships {len(rows)} open-source typefaces from its own server. Each is used under the SIL Open Font License 1.1; its notice and licence text follow.</p>',
+            f'    <p>This website ships {len(rows)} open-source typefaces from its own server. Each is used under the SIL Open Font License 1.1; its notice and license text follow.</p>',
             '    <ul>']
     for font, pkg, files in rows:
         body.append(f'      <li><strong>{html.escape(font)}</strong>: {html.escape(pkg)} ({html.escape(files)})</li>')
