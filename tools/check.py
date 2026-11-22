@@ -21,7 +21,10 @@ DRAFT_OK = {"privacy/index.html", "terms/index.html"}
 ALLOWED_HOSTS = {"assuredforge.com", "www.assuredforge.com"}
 ATTR = re.compile(r'\b(src|href)\s*=\s*"([^"]*)"', re.I)
 FOOTER = re.compile(r"<footer>.*©\s*\d{4} Tierra LLC.*</footer>", re.S)   # privacy and terms are added after counsel (DEC-448, option A)
-LEGAL = "Tierra LLC, a Michigan limited liability company. 5987 Wabash Ln, Stevensville, MI 49127"
+# Legal line in the footer: the company, its legal form and a postal address (number and street, city, state, ZIP). The exact
+# address is not fixed here, so a move changes only the pages; the [ADDRESS: placeholder check still refuses an unfilled one.
+LEGAL = re.compile(r"<footer>.*?Tierra LLC, an? [A-Z][A-Za-z ]+ limited liability company\.\s+"
+                   r"\d+[A-Za-z]? [^,<]+, [^,<]+, [A-Z]{2} \d{5}(?:-\d{4})?.*?</footer>", re.S)
 DESC = re.compile(r'<meta\s+name="description"\s+content="[^"]+"', re.I)
 IMG = re.compile(r"<img[^>]*>", re.I)
 SKIP = re.compile(r'<a\s+class="skip"\s+href="#main"', re.I)
@@ -150,8 +153,8 @@ def main(publish):
             problems.append(f"{rel}: footer missing or incomplete")
         if '<a href="/third-party-notices/">Third-party notices</a>' not in text:
             problems.append(f"{rel}: footer link to the third-party notices missing")
-        if LEGAL not in text:
-            problems.append(f"{rel}: legal line missing")
+        if not LEGAL.search(text):
+            problems.append(f"{rel}: legal line (company, legal form and postal address) missing from the footer")
         if not DESC.search(text):
             problems.append(f"{rel}: meta description missing")
         if not SKIP.search(text) or 'id="main"' not in text:
