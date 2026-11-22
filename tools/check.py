@@ -129,10 +129,17 @@ def check_served(problems):
         if not served_problems(files + planted, excludes):
             problems.append(f"served-file check: planted {planted[0]} was not caught")
 
+def check_font_faces(problems):
+    """Every font weight the CSS applies to text needs a shipped font file (tools/fontcheck.py)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import fontcheck
+    fontcheck.check_font_faces(ROOT, problems)
+
 def main(publish):
     problems = []
     check_design(problems)
     check_served(problems)
+    check_font_faces(problems)
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")
