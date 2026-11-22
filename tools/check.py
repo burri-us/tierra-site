@@ -9,6 +9,7 @@ description, an <img> without alt, a missing skip link, a DRAFT marker outside
 /privacy/ and /terms/, or an [ADDRESS: placeholder. With --publish it also
 refuses while any placeholder or DRAFT marker remains anywhere.
 """
+import json
 import re
 import subprocess
 import sys
@@ -50,6 +51,12 @@ def check_design(problems):
             body = "\n".join(re.findall(r"<style.*?</style>|style=\"[^\"]*\"", text, re.S))
         for m in FONTS.finditer(body):
             problems.append(f"{rel}: raw font name {m.group(0)} (use a font token)")
+    tok = json.loads((ROOT / "design" / "tokens.json").read_text(encoding="utf-8"))
+    bp = next(x["value"] for x in tok["size"]["tokens"] if x["name"] == "breakpoint-stack")
+    css = (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
+    m = re.search(r"@media \(min-width: ([\d.]+)rem\)\s*\{\s*/\* breakpoint-stack", css)
+    if not m or float(m.group(1)) * 16 != float(bp.replace("px", "")):
+        problems.append(f"assets/site.css: stacking media query must be min-width {bp} (token breakpoint-stack), marked /* breakpoint-stack */")
     for page in sorted(ROOT.rglob("*.html")):
         if ".git" in page.parts:
             continue
