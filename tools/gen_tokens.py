@@ -20,6 +20,7 @@ FACES = [
     ("Space Grotesk", 400, "space-grotesk-latin-400-normal.woff2"),
     ("Space Grotesk", 600, "space-grotesk-latin-600-normal.woff2"),
     ("Space Grotesk", 700, "space-grotesk-latin-700-normal.woff2"),
+    ("JetBrains Mono", 400, "jetbrains-mono-latin-400-normal.woff2"),   # code and licence text (--font-mono)
 ]
 
 def build():
