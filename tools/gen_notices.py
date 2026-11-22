@@ -45,13 +45,27 @@ def build():
     return page
 
 
+def licence_files():
+    """One plain-text licence file per family, shipped next to the font files (text from THIRD-PARTY-NOTICES.md)."""
+    md = SRC.read_text(encoding="utf-8")
+    blocks = re.findall(r"^## (.+?)\n+```\n(.*?)\n```", md, re.M | re.S)
+    return {ROOT / "assets" / "fonts" / ("OFL-" + name.replace(" ", "-") + ".txt"): text + "\n" for name, text in blocks}
+
+
 def main():
     page = build()
+    lic = licence_files()
     if "--check" in sys.argv:
         if not OUT.exists() or OUT.read_text(encoding="utf-8") != page:
             print("FAIL third-party-notices/index.html: missing or stale (run python tools/gen_notices.py)")
             return 1
+        for f, text in lic.items():
+            if not f.exists() or f.read_bytes().decode("utf-8").replace("\r\n", "\n") != text:
+                print(f"FAIL assets/fonts/{f.name}: missing or stale (run python tools/gen_notices.py)")
+                return 1
         return 0
+    for f, text in lic.items():
+        f.write_bytes(text.encode("utf-8"))
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(page, encoding="utf-8", newline="\n")
     print(f"wrote {OUT.relative_to(ROOT).as_posix()}")

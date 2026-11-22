@@ -68,8 +68,12 @@ def check_design(problems):
         if "/assets/tokens.css" not in text:
             problems.append(f"{rel}: tokens.css not linked")
     for w in (ROOT / "assets" / "fonts").glob("*"):
-        if w.suffix != ".woff2":
-            problems.append(f"assets/fonts/{w.name}: only woff2 expected")
+        if w.suffix != ".woff2" and not re.fullmatch(r"OFL-[A-Za-z-]+\.txt", w.name):
+            problems.append(f"assets/fonts/{w.name}: only woff2 and OFL-<family>.txt expected")
+    for w in (ROOT / "assets" / "fonts").glob("*.woff2"):
+        fam = w.name.rsplit("-latin-", 1)[0]
+        if not any(l.name.lower() == f"ofl-{fam}.txt" for l in (ROOT / "assets" / "fonts").glob("OFL-*.txt")):
+            problems.append(f"assets/fonts/{w.name}: licence file OFL-<family>.txt missing next to the font")
     if "SIL OPEN FONT LICENSE" not in (ROOT / "THIRD-PARTY-NOTICES.md").read_text(encoding="utf-8").upper():
         problems.append("THIRD-PARTY-NOTICES.md: licence text missing")
 
@@ -78,7 +82,7 @@ def check_design(problems):
 # every file is served, so .nojekyll must stay absent.
 SERVED_ALLOW = [re.compile(p) for p in (
     r"index\.html", r"404\.html", r"[a-z0-9-]+/index\.html",
-    r"assets/[a-z0-9.-]+\.(css|png|svg)", r"assets/fonts/[a-z0-9-]+\.woff2",
+    r"assets/[a-z0-9.-]+\.(css|png|svg)", r"assets/fonts/[a-z0-9-]+\.woff2", r"assets/fonts/OFL-[A-Za-z-]+\.txt",
     r"CNAME", r"robots\.txt", r"sitemap\.xml",
 )]
 
