@@ -114,3 +114,15 @@ checks, owner review, release as its own owner gate.
 
 Build after both site releases are live, as its own owner release decision. Kit Notices adds the claims rows (section 4, without the
 headline row) first.
+
+## 8. Rows recorded (Kit Notices, DEC-608): CL-69 to CL-73, all Draft until built and released
+
+| Row | Use | Check before the build |
+|---|---|---|
+| CL-69 | Home Trust line | Inherits CL-53's state (Being validated until the W8 network check). If CL-53 is still Being validated at build time, the line needs the owner's choice: wait, or drop the desktop sentence |
+| CL-70 | Home product card | The register supports "every governed decision" (CL-04, CL-05, CL-06), not every decision: use "every governed decision" |
+| CL-71 | About fourth principle | Same: "Prove: every governed decision is recorded and verifiable." |
+| CL-72 | About privacy principle, narrowed | As CL-69 (inherits CL-53) |
+| CL-73 | Trust page, "no cookies, no tracking, no analytics" | `tools/check.py` proves no scripts or external resources. "No cookies" also needs a check of both live sites (tierra-llc.com and assuredforge.com) for a `Set-Cookie` header from the host, every served page, run after both releases and before the build; result kept with the build record |
+
+CL-28 and CL-29 are reused word for word.
