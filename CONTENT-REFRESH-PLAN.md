@@ -104,3 +104,13 @@ checks, owner review, release as its own owner gate.
 2. Home headline: keep "Practical tools for work you can stand behind." (recommended for this round: no new row) or mission-led.
 3. Add the Trust page now with the counsel-free sections only (recommended), or wait for counsel.
 4. Narrow "Your data stays yours" to the desktop edition (recommended; the current line is wider than the register).
+
+## 7. Owner decisions (2026-11-24): plan approved
+
+1. Mission: "software they can trust" (DEC-579 (2)).
+2. Home headline: kept as is this round, so no headline row is needed.
+3. Trust page: added now, only the sections that need no counsel (our sites, security reports, link to AssuredForge's Trust Center).
+4. "Your data stays yours" is narrowed to the desktop edition (CL-53).
+
+Build after both site releases are live, as its own owner release decision. Kit Notices adds the claims rows (section 4, without the
+headline row) first.
