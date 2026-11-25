@@ -147,6 +147,8 @@ def main(publish):
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")
+    import stylecheck
+    stylecheck.check_style(ROOT, pages, problems)
     if not (ROOT / "third-party-notices" / "index.html").exists():
         problems.append("third-party-notices/index.html: missing (fonts are shipped under the OFL; run python tools/gen_notices.py)")
     for page in pages:
