@@ -11,4 +11,5 @@ exclude:
   - COUNSEL-LIST.md
   - tools
   - design
+  - src
   - "*.py"
