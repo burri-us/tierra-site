@@ -12,6 +12,9 @@ RULES = [
     ("en dash used as punctuation", re.compile(r"\s–\s")),
     ("arrow", re.compile("[←-↓⇐-⇔➔⟵⟶]")),
     ("middle dot separator", re.compile(r"\s·\s")),
+    # DEC-677: outcome words only where they describe what Tierra's products record or show; whole words only ("approve" is not one).
+    ("outcome word (DEC-677)", re.compile(r"\b(prove[ns]?|proving|proof\w*|provabl\w*|guarantee\w*|ensur(?:e|es|ed|ing)|compliant|"
+                                          r"compliance-ready|audit-ready|certified|full traceability)\b", re.I)),
     ("British spelling", re.compile(r"\b(licence\w*|organis\w*|personalis\w*|behaviour\w*|colour\w*|favour\w*|recognis\w*|"
                                     r"analys(?:e|ed|es|ing)|cancell(?:ed|ing)|labell(?:ed|ing)|modell(?:ed|ing)|travell(?:ed|ing)|"
                                     r"centre[sd]?|catalogue[sd]?|programme[sd]?|whilst|amongst|defence|judgement|enrolment|fulfil|fulfilment)\b", re.I)),
@@ -44,9 +47,10 @@ def check_style(root, pages, problems):
         for p in problems_in(public_text(page.read_text(encoding="utf-8"))):
             problems.append(f"{rel}: style (DEC-674): {p}")
     # Self-tests: planted problems are caught; plain US text, a range with an en dash and code are not.
-    for t in ("Tierra — tools", "a – b", "Next → step", "About · Tierra", "our organisation", "the licence", "colours"):
+    for t in ("Tierra — tools", "a – b", "Next → step", "About · Tierra", "our organisation", "the licence", "colours",
+              "results provable", "Prove: every decision", "audit-ready release management", "we guarantee it"):
         if not problems_in(t):
             problems.append(f"style check: planted {t!r} was not caught")
-    for t in ("our organization", "the license", "pages 9–12", public_text("<p>see <pre>licence text</pre></p>")):
+    for t in ("our organization", "the license", "pages 9–12", "named people approve", "improve", public_text("<p>see <pre>licence text</pre></p>")):
         if problems_in(t):
             problems.append(f"style check: {t!r} was caught")
