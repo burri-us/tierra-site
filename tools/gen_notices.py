@@ -38,7 +38,7 @@ def build():
     page = TEMPLATE.read_text(encoding="utf-8")
     page = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{DESC}">', page)
     page = re.sub(r'<meta property="og:description" content="[^"]*">', f'<meta property="og:description" content="{DESC}">', page)
-    page = page.replace("Contact · Tierra LLC", "Third-party notices · Tierra LLC")
+    page = page.replace("Contact | Tierra LLC", "Third-party notices | Tierra LLC")
     page = page.replace("https://tierra-llc.com/contact/", "https://tierra-llc.com/third-party-notices/")
     page = page.replace(' aria-current="page"', "")
     page = re.sub(r"<main id=\"main\">.*?</main>", lambda m: '<main id="main">\n' + "\n".join(body) + "\n  </main>", page, flags=re.S)
