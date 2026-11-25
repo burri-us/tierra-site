@@ -1,0 +1,40 @@
+# Reviewed vendor or model names, one entry per exact file and term (OI-717 S-2 to S-4; first list approved by the owner,
+# DEC-695 (1)). Format: <entry id> | <exact path> | <exact term> | <basis> | <decision reference> | <reviewed on> | <re-review by>
+# Bases: E-REG E-CFG E-VAL E-MET E-SUP E-LEG E-CLM (DEC-695 (2)). Kit Notices may add a per-file entry within an approved class
+# and reports it in the Kit-decided digest (S-8). Re-reviewed at each site release; a passed re-review date fails the check.
+
+# The check's own files (DEC-693 (4))
+VN-T10-01 | tools/vendor_name_check.py | anthropic | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-02 | tools/vendor_name_check.py | bedrock | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-03 | tools/vendor_name_check.py | chatgpt | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-04 | tools/vendor_name_check.py | claude | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-05 | tools/vendor_name_check.py | codex | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-06 | tools/vendor_name_check.py | copilot | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-07 | tools/vendor_name_check.py | gemini | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-08 | tools/vendor_name_check.py | llama | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-09 | tools/vendor_name_check.py | mistral | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-10 | tools/vendor_name_check.py | openai | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-11 | tools/vendor_name_check.py | opus | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T10-12 | tools/vendor_name_check.py | sonnet | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+
+# The check's own files (DEC-693 (4))
+VN-T11-01 | tools/test_vendor_name_check.py | anthropic | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T11-02 | tools/test_vendor_name_check.py | claude | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T11-03 | tools/test_vendor_name_check.py | gpt-4.1 | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T11-04 | tools/test_vendor_name_check.py | openai | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T11-05 | tools/test_vendor_name_check.py | opus | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+
+# The check's own files (DEC-693 (4))
+VN-T12-01 | tools/vendor_name_exceptions.txt | anthropic | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-02 | tools/vendor_name_exceptions.txt | bedrock | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-03 | tools/vendor_name_exceptions.txt | chatgpt | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-04 | tools/vendor_name_exceptions.txt | claude | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-05 | tools/vendor_name_exceptions.txt | codex | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-06 | tools/vendor_name_exceptions.txt | copilot | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-07 | tools/vendor_name_exceptions.txt | gemini | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-08 | tools/vendor_name_exceptions.txt | gpt-4.1 | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-09 | tools/vendor_name_exceptions.txt | llama | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-10 | tools/vendor_name_exceptions.txt | mistral | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-11 | tools/vendor_name_exceptions.txt | openai | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-12 | tools/vendor_name_exceptions.txt | opus | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
+VN-T12-13 | tools/vendor_name_exceptions.txt | sonnet | E-CFG | DEC-693 (4): the vendor-name check, its self-test and this list | 2026-11-25 | 2026-12-04
