@@ -8,6 +8,7 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .skip:focus { left: 1rem; top: 1rem; background: var(--surface); color: var(--ink); padding: 0.5rem 0.75rem; border: 2px solid var(--accent); z-index: 10; }
 
 a { color: var(--accent); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+main a:not(.button):hover, main a:not(.button):active, footer a:hover, footer a:active { color: var(--accent-hover); }
 a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 header { border-bottom: 1px solid var(--rule); background: var(--surface); }
@@ -27,6 +28,8 @@ h1, h2, h3 { font-family: var(--font-display); }
 h1 { font-size: clamp(var(--type-heading-1-size), 4vw + 1rem, var(--type-display-xl-size)); line-height: 1.1; font-weight: var(--type-display-xl-weight); margin: 0 0 var(--space-4); letter-spacing: var(--type-display-xl-tracking); }
 h2 { font-size: var(--type-heading-2-size); line-height: var(--type-heading-2-line); font-weight: var(--type-heading-2-weight); margin: 0 0 var(--space-4); }
 h3 { font-size: var(--type-heading-3-size); line-height: var(--type-heading-3-line); font-weight: var(--type-heading-3-weight); margin: 0 0 var(--space-2); }
+/* The body font ships 400 and 600; the browser default for strong and b (bolder, i.e. 700) would ask for a missing weight. */
+strong, b { font-weight: 600; }
 p { margin: 0 0 1rem; max-width: 42rem; }
 .lead { font-size: 1.25rem; /* between body-lg and heading-2 */ color: var(--ink); }
 
@@ -42,9 +45,9 @@ p { margin: 0 0 1rem; max-width: 42rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: var(--target-min); padding: var(--space-2) var(--space-5); border-radius: var(--radius-md); border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-size: 15px; line-height: 24px; font-weight: var(--type-label-weight); text-decoration: none; }
-.button.secondary { background: var(--surface); color: var(--accent); }
-.button:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
-.button.secondary:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.button.secondary { background: var(--surface); color: var(--accent); border-color: var(--control-border); }
+.button:hover, .button:active { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-ink); }
+.button.secondary:hover, .button.secondary:active { background: var(--accent-soft); border-color: var(--accent-hover); color: var(--accent-hover); }
 .button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 .grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
@@ -69,6 +72,8 @@ footer p:last-child { padding-bottom: 1rem; }
   main { padding-bottom: var(--space-16); }
   section { margin-bottom: var(--space-16); }
   .card { padding: var(--space-5) var(--space-5) var(--space-2); }
+}
+@media (min-width: 45rem) { /* breakpoint-stack (720px): below it side-by-side layouts stack; tools/check.py compares this value with the token */
   .hero { grid-template-columns: 1.4fr 1fr; }
   .grid { grid-template-columns: 3fr 2fr; }
   .values { grid-template-columns: repeat(3, 1fr); }

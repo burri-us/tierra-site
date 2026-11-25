@@ -9,6 +9,7 @@ description, an <img> without alt, a missing skip link, a DRAFT marker outside
 /privacy/ and /terms/, or an [ADDRESS: placeholder. With --publish it also
 refuses while any placeholder or DRAFT marker remains anywhere.
 """
+import json
 import re
 import subprocess
 import sys
@@ -20,7 +21,10 @@ DRAFT_OK = {"privacy/index.html", "terms/index.html"}
 ALLOWED_HOSTS = {"assuredforge.com", "www.assuredforge.com"}
 ATTR = re.compile(r'\b(src|href)\s*=\s*"([^"]*)"', re.I)
 FOOTER = re.compile(r"<footer>.*©\s*\d{4} Tierra LLC.*</footer>", re.S)   # privacy and terms are added after counsel (DEC-448, option A)
-LEGAL = "Tierra LLC, a Michigan limited liability company. 5987 Wabash Ln, Stevensville, MI 49127"
+# Legal line in the footer: the company, its legal form and a postal address (number and street, city, state, ZIP). The exact
+# address is not fixed here, so a move changes only the pages; the [ADDRESS: placeholder check still refuses an unfilled one.
+LEGAL = re.compile(r"<footer>.*?Tierra LLC, an? [A-Z][A-Za-z ]+ limited liability company\.\s+"
+                   r"\d+[A-Za-z]? [^,<]+, [^,<]+, [A-Z]{2} \d{5}(?:-\d{4})?.*?</footer>", re.S)
 DESC = re.compile(r'<meta\s+name="description"\s+content="[^"]+"', re.I)
 IMG = re.compile(r"<img[^>]*>", re.I)
 SKIP = re.compile(r'<a\s+class="skip"\s+href="#main"', re.I)
@@ -50,6 +54,12 @@ def check_design(problems):
             body = "\n".join(re.findall(r"<style.*?</style>|style=\"[^\"]*\"", text, re.S))
         for m in FONTS.finditer(body):
             problems.append(f"{rel}: raw font name {m.group(0)} (use a font token)")
+    tok = json.loads((ROOT / "design" / "tokens.json").read_text(encoding="utf-8"))
+    bp = next(x["value"] for x in tok["size"]["tokens"] if x["name"] == "breakpoint-stack")
+    css = (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
+    m = re.search(r"@media \(min-width: ([\d.]+)rem\)\s*\{\s*/\* breakpoint-stack", css)
+    if not m or float(m.group(1)) * 16 != float(bp.replace("px", "")):
+        problems.append(f"assets/site.css: stacking media query must be min-width {bp} (token breakpoint-stack), marked /* breakpoint-stack */")
     for page in sorted(ROOT.rglob("*.html")):
         if ".git" in page.parts:
             continue
@@ -61,8 +71,12 @@ def check_design(problems):
         if "/assets/tokens.css" not in text:
             problems.append(f"{rel}: tokens.css not linked")
     for w in (ROOT / "assets" / "fonts").glob("*"):
-        if w.suffix != ".woff2":
-            problems.append(f"assets/fonts/{w.name}: only woff2 expected")
+        if w.suffix != ".woff2" and not re.fullmatch(r"OFL-[A-Za-z-]+\.txt", w.name):
+            problems.append(f"assets/fonts/{w.name}: only woff2 and OFL-<family>.txt expected")
+    for w in (ROOT / "assets" / "fonts").glob("*.woff2"):
+        fam = w.name.rsplit("-latin-", 1)[0]
+        if not any(l.name.lower() == f"ofl-{fam}.txt" for l in (ROOT / "assets" / "fonts").glob("OFL-*.txt")):
+            problems.append(f"assets/fonts/{w.name}: licence file OFL-<family>.txt missing next to the font")
     if "SIL OPEN FONT LICENSE" not in (ROOT / "THIRD-PARTY-NOTICES.md").read_text(encoding="utf-8").upper():
         problems.append("THIRD-PARTY-NOTICES.md: licence text missing")
 
@@ -71,7 +85,7 @@ def check_design(problems):
 # every file is served, so .nojekyll must stay absent.
 SERVED_ALLOW = [re.compile(p) for p in (
     r"index\.html", r"404\.html", r"[a-z0-9-]+/index\.html",
-    r"assets/[a-z0-9.-]+\.(css|png|svg)", r"assets/fonts/[a-z0-9-]+\.woff2",
+    r"assets/[a-z0-9.-]+\.(css|png|svg)", r"assets/fonts/[a-z0-9-]+\.woff2", r"assets/fonts/OFL-[A-Za-z-]+\.txt",
     r"CNAME", r"robots\.txt", r"sitemap\.xml",
 )]
 
@@ -115,10 +129,17 @@ def check_served(problems):
         if not served_problems(files + planted, excludes):
             problems.append(f"served-file check: planted {planted[0]} was not caught")
 
+def check_font_faces(problems):
+    """Every font weight the CSS applies to text needs a shipped font file (tools/fontcheck.py)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import fontcheck
+    fontcheck.check_font_faces(ROOT, problems)
+
 def main(publish):
     problems = []
     check_design(problems)
     check_served(problems)
+    check_font_faces(problems)
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
     if not pages:
         problems.append("no pages found")
@@ -139,8 +160,8 @@ def main(publish):
             problems.append(f"{rel}: footer missing or incomplete")
         if '<a href="/third-party-notices/">Third-party notices</a>' not in text:
             problems.append(f"{rel}: footer link to the third-party notices missing")
-        if LEGAL not in text:
-            problems.append(f"{rel}: legal line missing")
+        if not LEGAL.search(text):
+            problems.append(f"{rel}: legal line (company, legal form and postal address) missing from the footer")
         if not DESC.search(text):
             problems.append(f"{rel}: meta description missing")
         if not SKIP.search(text) or 'id="main"' not in text:
